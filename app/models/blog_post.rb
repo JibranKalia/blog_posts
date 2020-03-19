@@ -9,7 +9,7 @@ class BlogPost < ApplicationRecord
     set
   end
 
-  def self.sort_posts(posts, sort_by: :id, direction: :asc)
+  def self.sort_posts(posts, sort_by, direction)
     sorted_posts = posts.sort_by { |hash| hash[sort_by] }
     sorted_posts.reverse! if direction == :desc
     sorted_posts

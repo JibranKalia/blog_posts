@@ -4,11 +4,11 @@ class Api::PostsController < ApplicationController
       validate_params!
 
       tags = params[:tags].split(",")
-      sort_by = params[:sortBy]&.to_sym
-      direction = params[:direction]&.to_sym
+      sort_by = params[:sortBy]&.to_sym || :id
+      direction = params[:direction]&.to_sym || :asc
 
       @posts = BlogPost.get_posts_by_tags(tags)
-      @sorted_posts = BlogPost.sort_posts(@posts, sort_by: sort_by, direction: direction)
+      @sorted_posts = BlogPost.sort_posts(@posts, sort_by, direction)
       render json: { posts: @sorted_posts }
     rescue RailsParam::Param::InvalidParameterError => e
       render json: { error: e.message }, status: :bad_request
