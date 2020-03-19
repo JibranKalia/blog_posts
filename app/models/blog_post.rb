@@ -15,8 +15,6 @@ class BlogPost < ApplicationRecord
     sorted_posts
   end
 
-  private
-
   def self.get_posts_by_tag(tag)
     Rails.cache.fetch(tag, expires_in: 12.hours) do
       fetch_posts(tag)
