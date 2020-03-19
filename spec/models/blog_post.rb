@@ -22,4 +22,21 @@ RSpec.describe BlogPost, type: :model do
       expect(ids).to eq([2, 8, 10, 14, 16, 18, 37, 38, 39, 45, 50, 64, 65, 67, 69, 79, 80, 81, 84, 86, 88, 89, 93, 95, 96, 100])
     end
   end
+
+  describe 'get_posts_by_tag' do
+    let(:memory_store) { ActiveSupport::Cache.lookup_store(:memory_store) } 
+    let(:cache) { Rails.cache }
+
+    before do
+      allow(Rails).to receive(:cache).and_return(memory_store)
+      Rails.cache.clear
+    end
+
+    it 'caches response' do
+      expect(cache.exist?('tech')).to be(false)
+      BlogPost.get_posts_by_tag('tech')
+      expect(cache.exist?('tech')).to be(true)
+    end
+  end
+
 end
