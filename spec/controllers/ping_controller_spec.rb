@@ -4,7 +4,6 @@ RSpec.describe Api::PingController, type: :controller do
   describe "#index" do
     it "should return 200" do
       get :index
-      expect(response.body).to eq('{"success":true}')
       assert_response :ok
     end
 
