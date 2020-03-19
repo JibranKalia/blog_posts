@@ -39,4 +39,73 @@ RSpec.describe BlogPost, type: :model do
     end
   end
 
+  describe 'get_posts_by_tags' do
+    let(:posts) { BlogPost.get_posts_by_tags(['history', 'tech']) }
+
+    it 'only has unique records' do
+      posts_ids = posts.map { |hash| hash[:id] }
+
+      expect(posts_ids.length).to eq(posts_ids.uniq.length)
+    end
+
+    it 'has correct tags' do
+      posts_tags = posts.map { |hash| hash[:tags] }
+
+      posts_tags.each do |post_tags|
+        expect(post_tags.include?('history') || post_tags.include?('tech')).to be(true)
+      end
+    end
+  end
+
+  describe 'sort_posts' do
+    let(:posts) { BlogPost.get_posts_by_tags(['history', 'tech']) }
+
+    it 'sorts by id ascending correctly' do
+      sorted_posts = BlogPost.sort_posts(posts, :id, :asc)
+      expect(sorted_posts.first[:author]).to eq("Rylee Paul")
+      expect(sorted_posts.last[:author]).to eq("Ahmad Dunn")
+    end
+
+    it 'sorts by id descending correctly' do
+      sorted_posts = BlogPost.sort_posts(posts, :id, :desc)
+      expect(sorted_posts.first[:author]).to eq("Ahmad Dunn")
+      expect(sorted_posts.last[:author]).to eq("Rylee Paul")
+    end
+
+    it 'sorts by reads ascending correctly' do
+      sorted_posts = BlogPost.sort_posts(posts, :reads, :asc)
+      expect(sorted_posts.first[:author]).to eq("Bryson Bowers")
+      expect(sorted_posts.last[:author]).to eq("Lainey Ritter")
+    end
+
+    it 'sorts by reads descending correctly' do
+      sorted_posts = BlogPost.sort_posts(posts, :reads, :desc)
+      expect(sorted_posts.first[:author]).to eq("Lainey Ritter")
+      expect(sorted_posts.last[:author]).to eq("Bryson Bowers")
+    end
+
+    it 'sorts by popularity ascending correctly' do
+      sorted_posts = BlogPost.sort_posts(posts, :popularity, :asc)
+      expect(sorted_posts.first[:author]).to eq("Jaden Bryant")
+      expect(sorted_posts.last[:author]).to eq("Jon Abbott")
+    end
+
+    it 'sorts by popularity descending correctly' do
+      sorted_posts = BlogPost.sort_posts(posts, :popularity, :desc)
+      expect(sorted_posts.first[:author]).to eq("Jon Abbott")
+      expect(sorted_posts.last[:author]).to eq("Jaden Bryant")
+    end
+
+    it 'sorts by likes ascending correctly' do
+      sorted_posts = BlogPost.sort_posts(posts, :likes, :asc)
+      expect(sorted_posts.first[:author]).to eq("Bryson Bowers")
+      expect(sorted_posts.last[:author]).to eq("Jon Abbott")
+    end
+
+    it 'sorts by likes descending correctly' do
+      sorted_posts = BlogPost.sort_posts(posts, :likes, :desc)
+      expect(sorted_posts.first[:author]).to eq("Jon Abbott")
+      expect(sorted_posts.last[:author]).to eq("Bryson Bowers")
+    end
+  end
 end

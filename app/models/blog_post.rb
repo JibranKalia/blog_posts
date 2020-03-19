@@ -10,7 +10,8 @@ class BlogPost < ApplicationRecord
   end
 
   def self.sort_posts(posts, sort_by, direction)
-    sorted_posts = posts.sort_by { |hash| hash[sort_by] }
+    # index needed to make ruby sort stable
+    sorted_posts = posts.sort_by.with_index { |hash, idx| [hash[sort_by], idx] }
     sorted_posts.reverse! if direction == :desc
     sorted_posts
   end
