@@ -1,12 +1,10 @@
 # README
 
-* Ruby version
-
-Ruby 2.6.3
+Ruby Version: 2.6.3
 
 Note:
-- Intentionally didn't make it concurrent in ruby as this is actually a lot of work and ususally doesn't provide that much of a performance. Especially with caching implemented.
-- Differ in the sorting with the solution for keys `likes popularity` as there is not secondary sort parameter
+- Intentionally didn't make it concurrent. In Ruby (MRI) this is difficult because of the global interpreter lock which leads to concurrent calls not providing much of a performance boost. Especially with caching implemented.
+- I differ in the sorting with the provided solution for the following keys: `likes popularity` as there is not secondary sort parameter.
 
 Errors found in the solution:
 
